@@ -120,7 +120,7 @@ class Dir
   public static function each($path, $filter, \Closure $lambda)
   {
     // TODO: should be recursive?
-    $set = static::entries($path, $filter);
+    $set = static::entries($path, $filter, static::SORTING);
 
     foreach ($set as $nth => $file) {
       $lambda($file, $nth);
