@@ -648,7 +648,7 @@ class Base
       $root = dirname($root);
     }
 
-    return static::join($root, $path);
+    return static::join($root, $path === '.' ? '' : $path);
   }
 
   public static function join()
