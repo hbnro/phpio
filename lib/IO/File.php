@@ -101,4 +101,28 @@ class File
     return @file_put_contents($to, $content, $append ? FILE_APPEND : 0) !== FALSE;
   }
 
+  public static function open($path, $mode, \Closure $lambda)
+  {
+    if ( ! ($res = @fopen($path, $mode))) {
+      throw new \Exception("The file '$path' could not be opened.");
+    }
+
+    $lambda($res);
+    fclose($res);
+  }
+
+  public static function each($path, \Closure $lambda)
+  {
+    if ( ! is_file($path)) {
+      throw new \Exception("The file '$path' does not exists.");
+    }
+
+    // TODO: should skip empty lines?
+    $set = file($path, FILE_IGNORE_NEW_LINES);
+
+    foreach ($set as $i => $line) {
+      $lambda($line, $i);
+    }
+  }
+
 }

@@ -105,4 +105,28 @@ class Dir
     return $out;
   }
 
+  public static function open($path, \Closure $lambda)
+  {
+    if ( ! ($res = @opendir($path))) {
+      throw new \Exception("The directory '$path' could not be opened.");
+    }
+
+    while (($tmp = @readdir($res)) !== FALSE) {
+      if (($tmp <> '.') && ($tmp <> '..')) {
+        $lambda($tmp);
+      }
+    }
+    @closedir($res);
+  }
+
+  public static function each($path, $filter, \Closure $lambda)
+  {
+    // TODO: should be recursive?
+    $set = static::entries($path, $filter, static::GLOB_EMPTY);
+
+    foreach ($set as $nth => $file) {
+      $lambda($file, $nth);
+    }
+  }
+
 }
