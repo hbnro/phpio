@@ -1,0 +1,13 @@
+{
+  "name": "habanero/io",
+  "description": "Common wrappers and IO utils for PHP",
+  "authors": [{
+    "name":"Alvaro Cabrera"
+  }],
+  "require": {
+    "php": ">=5.3"
+  },
+  "autoload": {
+    "psr-0": {"IO": "lib/"}
+  }
+}
