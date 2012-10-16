@@ -599,7 +599,7 @@ class Base
         return mime_content_type($from);
       }
 
-      $data = file_get_contents($from, NULL, NULL, 0, 128);
+      $data = file_get_contents($from, NULL, NULL, 0, 16);
 
       if ( ! strncmp($data, "\xff\xd8", 2)) {
         return 'image/jpeg';
