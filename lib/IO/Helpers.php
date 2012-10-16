@@ -644,7 +644,7 @@ class Helpers
     $path = str_replace(array('\\', '/'), '/', $path);
 
     while (substr($path, 0, 3) === '../') {
-      $path = substr($path, 0, -3);
+      $path = substr($path, 3);
       $root = dirname($root);
     }
 
