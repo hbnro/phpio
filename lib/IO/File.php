@@ -117,8 +117,7 @@ class File
       throw new \Exception("The file '$path' does not exists.");
     }
 
-    // TODO: should skip empty lines?
-    $set = file($path, FILE_IGNORE_NEW_LINES);
+    $set = file($path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
 
     foreach ($set as $i => $line) {
       $lambda($line, $i);
