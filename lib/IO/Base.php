@@ -589,7 +589,7 @@ class Base
 
 
 
-  public static function mime($from)
+  public static function mimetype($from)
   {
     if (is_file($from)) {
       if (is_callable('finfo_open')) {
