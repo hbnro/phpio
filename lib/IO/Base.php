@@ -653,7 +653,10 @@ class Base
 
   public static function join()
   {
-    return join(DIRECTORY_SEPARATOR, array_filter(func_get_args()));
+    $path = join(DIRECTORY_SEPARATOR, array_filter(func_get_args()));
+    $path = strtr($path, '\\/', DIRECTORY_SEPARATOR.DIRECTORY_SEPARATOR);
+
+    return $path;
   }
 
 }
