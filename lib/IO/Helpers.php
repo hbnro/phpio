@@ -2,7 +2,7 @@
 
 namespace IO;
 
-class Base
+class Helpers
 {
 
   private static $sizes = array('', 'K', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y');
