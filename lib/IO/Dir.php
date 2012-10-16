@@ -33,7 +33,8 @@ class Dir
     return $files;
   }
 
-  public static function cpfiles($from, $to, $filter = '*', $recursive = FALSE) {
+  public static function cpfiles($from, $to, $filter = '*', $recursive = FALSE)
+  {
     if ( ! is_dir($from)) {
       throw new \Exception("The directory '$from' does not exists.");
     }
@@ -87,7 +88,8 @@ class Dir
     return TRUE;
   }
 
-  public static function size($path, $recursive = FALSE) {
+  public static function size($path, $recursive = FALSE)
+  {
     if ( ! is_dir($path)) {
       throw new \Exception("The directory '$path' does not exists.");
     }
