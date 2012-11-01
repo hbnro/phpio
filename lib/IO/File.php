@@ -104,7 +104,7 @@ class File
   public static function open($path, $mode, \Closure $lambda)
   {
     if ( ! ($res = @fopen($path, $mode))) {
-      throw new \Exception("The file '$path' could not be opened.");
+      throw new \Exception("The file '$path' could not be opened");
     }
 
     $lambda($res);
@@ -114,7 +114,7 @@ class File
   public static function each($path, \Closure $lambda)
   {
     if ( ! is_file($path)) {
-      throw new \Exception("The file '$path' does not exists.");
+      throw new \Exception("The file '$path' does not exists");
     }
 
     $set = file($path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);

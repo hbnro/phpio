@@ -8,7 +8,7 @@ class Dir
   public static function entries($from, $filter = '*', $recursive = FALSE)
   {
     if ( ! is_dir($from)) {
-      throw new \Exception("The directory '$from' does not exists.");
+      throw new \Exception("The directory '$from' does not exists");
     }
 
     $path = rtrim($from, DIRECTORY_SEPARATOR);
@@ -29,7 +29,7 @@ class Dir
   public static function cpfiles($from, $to, $filter = '*', $recursive = FALSE)
   {
     if ( ! is_dir($from)) {
-      throw new \Exception("The directory '$from' does not exists.");
+      throw new \Exception("The directory '$from' does not exists");
     }
 
     is_dir($to) OR mkdir($to, 0777, TRUE);
@@ -50,7 +50,7 @@ class Dir
   public static function findfile($path, $filter = '*', $recursive = FALSE, $index = 0)
   {
     if ( ! is_dir($path)) {
-      throw new \Exception("The directory '$path' does not exists.");
+      throw new \Exception("The directory '$path' does not exists");
     }
 
     $output = static::entries($path, $filter, $recursive);
@@ -66,7 +66,7 @@ class Dir
   public static function unfile($path, $filter = '*', $recursive = FALSE)
   {
     if ( ! is_dir($path)) {
-      throw new \Exception("The directory '$path' does not exists.");
+      throw new \Exception("The directory '$path' does not exists");
     }
 
     $test = array_reverse(static::entries($path, $filter, $recursive));
@@ -84,7 +84,7 @@ class Dir
   public static function size($path, $recursive = FALSE)
   {
     if ( ! is_dir($path)) {
-      throw new \Exception("The directory '$path' does not exists.");
+      throw new \Exception("The directory '$path' does not exists");
     }
 
 
@@ -101,12 +101,12 @@ class Dir
   public static function open($path, \Closure $lambda)
   {
     if ( ! ($res = @opendir($path))) {
-      throw new \Exception("The directory '$path' could not be opened.");
+      throw new \Exception("The directory '$path' could not be opened");
     }
 
     while (($tmp = @readdir($res)) !== FALSE) {
       if (($tmp <> '.') && ($tmp <> '..')) {
-        $lambda($tmp);
+        $lambda(realpath($path.DIRECTORY_SEPARATOR.$tmp));
       }
     }
     @closedir($res);
