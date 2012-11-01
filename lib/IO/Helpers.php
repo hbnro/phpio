@@ -631,7 +631,7 @@ class Helpers
     $unit = $lower ? strtolower($unit) : $unit;
 
     $output = strtr($text, array(
-      '%d' => floor($of),
+      '%d' => (float) number_format($of, 2),
       '%s' => $unit,
     ));
 
