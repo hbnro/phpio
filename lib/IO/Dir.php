@@ -100,24 +100,32 @@ class Dir
 
   public static function open($path, \Closure $lambda)
   {
-    if ( ! ($res = @opendir($path))) {
-      throw new \Exception("The directory '$path' could not be opened");
-    }
+    $set = is_array($path) ? $path : explode(PATH_SEPARATOR, $path);
 
-    while (($tmp = @readdir($res)) !== FALSE) {
-      if (($tmp <> '.') && ($tmp <> '..')) {
-        $lambda(realpath($path.DIRECTORY_SEPARATOR.$tmp));
+    foreach ($set as $dir) {
+      if ( ! ($res = @opendir($dir))) {
+        throw new \Exception("The directory '$dir' could not be opened");
       }
+
+      while (($tmp = @readdir($res)) !== FALSE) {
+        if (($tmp <> '.') && ($tmp <> '..')) {
+          $lambda(realpath($dir.DIRECTORY_SEPARATOR.$tmp));
+        }
+      }
+      @closedir($res);
     }
-    @closedir($res);
   }
 
   public static function each($path, $filter, \Closure $lambda)
   {
-    $set = static::entries($path, $filter, TRUE);
+    $set = is_array($path) ? $path : explode(PATH_SEPARATOR, $path);
 
-    foreach ($set as $nth => $file) {
-      $lambda($file, $nth);
+    foreach ($set as $dir) {
+      $tmp = static::entries($dir, $filter, TRUE);
+
+      foreach ($tmp as $nth => $file) {
+        $lambda($file, $nth);
+      }
     }
   }
 
