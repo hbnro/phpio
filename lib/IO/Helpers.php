@@ -653,7 +653,7 @@ class Helpers
 
   public static function join()
   {
-    $path = join(DIRECTORY_SEPARATOR, array_filter(func_get_args()));
+    $path = join(DIRECTORY_SEPARATOR, array_filter(func_get_args(), 'strlen'));
     $path = strtr($path, '\\/', DIRECTORY_SEPARATOR.DIRECTORY_SEPARATOR);
 
     return $path;
