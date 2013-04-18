@@ -586,14 +586,12 @@ class Helpers
                     'xmt_txt' => 'model/vnd.parasolid.transmit.text',
                   );
 
-
-
-
   public static function mimetype($from)
   {
     if (is_file($from)) {
       if (is_callable('finfo_open')) {
         $test = explode(';', finfo_file(finfo_open(FILEINFO_MIME), $from));
+
         return array_shift($test) ?: 'application/octet-stream';
       } elseif (is_callable('mime_content_type')) {
         return mime_content_type($from);
@@ -609,7 +607,6 @@ class Helpers
         return 'image/gif';
       }
     }
-
 
     $ext = (strpos($from, '.') !== FALSE) ? \IO\File::ext($from) : $from;
     $ext = ! empty(static::$types[$ext]) ? static::$types[$ext] : 'application/octet-stream';

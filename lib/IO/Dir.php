@@ -87,7 +87,6 @@ class Dir
       throw new \Exception("The directory '$path' does not exists");
     }
 
-
     $out = 0;
     $test = array_filter(static::entries($path, '*', $recursive), 'is_file');
 

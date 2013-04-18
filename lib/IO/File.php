@@ -36,7 +36,6 @@ class File
 
       $agent = 'Mozilla/4.0 (compatible; MSIE 5.01; Windows NT 5.0)';
 
-
       if ($test['scheme'] === 'https') {
         $port = 433;
       }
@@ -87,7 +86,6 @@ class File
     } elseif (is_file($path)) {
       $output = file_get_contents($path);
     }
-
 
     if (substr($output, 0, 3) === "\xEF\xBB\xBF") {// TODO: avoid possible BOM issue?
       $output = substr($output, 3);
