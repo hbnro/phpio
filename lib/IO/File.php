@@ -98,7 +98,9 @@ class File
 
   public static function write($to, $content = '', $append = FALSE)
   {
-    return @file_put_contents($to, $content, $append ? FILE_APPEND : 0) !== FALSE;
+    if ( ! @file_put_contents($to, $content, $append ? FILE_APPEND : 0)) {
+      throw new \Exception("Cannot write '$to' file");
+    }
   }
 
   public static function open($path, $mode, \Closure $lambda)
