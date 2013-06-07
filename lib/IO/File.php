@@ -99,6 +99,8 @@ class File
     if (@file_put_contents($to, $content, $append ? FILE_APPEND : 0) === FALSE) {
       throw new \Exception("Cannot write '$to' file");
     }
+
+    return TRUE;
   }
 
   public static function open($path, $mode, \Closure $lambda)
