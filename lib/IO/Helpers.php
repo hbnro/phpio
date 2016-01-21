@@ -635,17 +635,31 @@ class Helpers
     return $output;
   }
 
-  public static function expand($path, $dir = '.')
+  public static function expand($path, $dir = '')
   {
-    $root = is_dir($dir) ? realpath($dir) : $dir;
+    $root = $dir && is_dir($dir) ? realpath($dir) : '';
     $path = str_replace(array('\\', '/'), '/', $path);
 
-    while (substr($path, 0, 3) === '../') {
-      $path = substr($path, 3);
-      $root = dirname($root);
+    $parts = explode('/', $path);
+    $absolutes = array();
+
+    foreach ($parts as $part) {
+      if (!$part || '.' === $part) {
+        continue;
+      }
+
+      if ('..' === $part) {
+        array_pop($absolutes);
+      } else {
+        $absolutes[] = $part;
+      }
     }
 
-    return static::join($root, $path === '.' ? '' : $path);
+    if ($root) {
+      array_unshift($absolutes, $root);
+    }
+
+    return call_user_func_array('\\IO\\Helpers::join', $absolutes);
   }
 
   public static function join()

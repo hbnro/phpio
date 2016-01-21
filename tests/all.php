@@ -21,6 +21,7 @@ IO\Dir::each('.', '*', function ($file) {
   echo " #file => $file\n";
 });
 
+var_dump(IO\Helpers::expand('a/b/c/../d/e/./f/g/../h'));
 
 $tmp = IO\Dir::findfile('a/b', '*', TRUE, 1);
 $new = IO\File::read('a/b/z');
