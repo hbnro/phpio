@@ -1,3 +1,5 @@
 bin
 vendor
+.spectre
+coverage
 composer.lock

@@ -5,7 +5,9 @@ namespace IO;
 class Helpers
 {
 
-  private static $sizes = array('', 'K', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y');
+  private static $tempdir;
+
+  private static $units = array('B', 'K', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y');
 
   private static $types = array(
                     'ez' => 'application/andrew-inset',
@@ -599,49 +601,43 @@ class Helpers
 
       $data = file_get_contents($from, NULL, NULL, 0, 16);
 
-      if ( ! strncmp($data, "\xff\xd8", 2)) {
+      if (!strncmp($data, "\xff\xd8", 2)) {
         return 'image/jpeg';
-      } elseif ( ! strncmp($data, "\x89PNG", 4)) {
+      } elseif (!strncmp($data, "\x89PNG", 4)) {
         return 'image/png';
-      } elseif ( ! strncmp($data, "GIF", 3)) {
+      } elseif (!strncmp($data, "GIF", 3)) {
         return 'image/gif';
       }
     }
 
     $ext = (strpos($from, '.') !== FALSE) ? \IO\File::ext($from) : $from;
-    $ext = ! empty(static::$types[$ext]) ? static::$types[$ext] : 'application/octet-stream';
+    $ext = !empty(static::$types[$ext]) ? static::$types[$ext] : 'application/octet-stream';
 
     return $ext;
   }
 
-  public static function fmtsize($of = 0, $text = '%d %s', $lower = FALSE)
+  public static function fmtsize($of = 0, $unit = NULL, $format = '%01.2f %s')
   {
-    $key = 0;
+    $mod = (strpos($unit, 'i') !== FALSE) ? 1024 : 1000;
 
-    while ($of >= 1024) {
-      $of   = $of / 1024;
-      $key += 1;
+    if (($power = array_search((string) $unit, self::$units)) === FALSE) {
+      $power = ($of > 0) ? floor(log($of, $mod)) : 0;
     }
 
-    $test = static::$sizes;
-    $unit = preg_replace('/^iB/', 'Bi', "$test[$key]iB");
-    $unit = $lower ? strtolower($unit) : $unit;
-
-    $output = strtr($text, array(
-      '%d' => (float) number_format($of, 2),
-      '%s' => $unit,
-    ));
-
-    return $output;
+    return sprintf($format, $of / pow($mod, $power), self::$units[$power]);
   }
 
-  public static function expand($path, $dir = '')
+  public static function join($parts = array())
   {
-    $root = $dir && is_dir($dir) ? realpath($dir) : '';
-    $path = str_replace(array('\\', '/'), '/', $path);
+    $parts = !is_array($parts) ? func_get_args() : $parts;
+    $path = strtr(join('/', $parts), '\\/', DIRECTORY_SEPARATOR.DIRECTORY_SEPARATOR);
 
     $parts = explode('/', $path);
     $absolutes = array();
+
+    if (substr($path, 0, 1) === DIRECTORY_SEPARATOR) {
+      $absolutes []= '';
+    }
 
     foreach ($parts as $part) {
       if (!$part || '.' === $part) {
@@ -655,19 +651,27 @@ class Helpers
       }
     }
 
-    if ($root) {
-      array_unshift($absolutes, $root);
-    }
-
-    return call_user_func_array('\\IO\\Helpers::join', $absolutes);
+    return join(DIRECTORY_SEPARATOR, $absolutes);
   }
 
-  public static function join()
-  {
-    $path = join(DIRECTORY_SEPARATOR, array_filter(func_get_args(), 'strlen'));
-    $path = strtr($path, '\\/', DIRECTORY_SEPARATOR.DIRECTORY_SEPARATOR);
+  public static function tmp($name = '') {
+    if (!static::$tempdir) {
+      if (function_exists('sys_get_temp_dir')) {
+        $tmp = @sys_get_temp_dir();
+      } else {
+        $tmp = getenv('TMP') ?: getenv('TEMP');
 
-    return $path;
+        if (!is_dir($tmp)) {
+          $old = @tempnam('E', '');
+          $tmp = @dirname($old);
+          @unlink($old);
+        }
+      }
+
+      static::$tempdir = @is_dir($tmp) && @is_writable($tmp) ? rtrim($tmp, '\\/') : '/tmp';
+    }
+
+    return static::join(static::$tempdir, $name);
   }
 
 }

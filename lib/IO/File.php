@@ -30,9 +30,9 @@ class File
     if (strpos($path, '://') !== FALSE) {
       $test = @parse_url($path);
 
-      $port  = ! empty($test['port']) ? $test['port'] : 80;
-      $guri  = ! empty($test['path']) ? $test['path'] : '/';
-      $guri .= ! empty($test['query']) ? "?$test[query]" : '';
+      $port  = !empty($test['port']) ? $test['port'] : 80;
+      $guri  = !empty($test['path']) ? $test['path'] : '/';
+      $guri .= !empty($test['query']) ? "?$test[query]" : '';
 
       $agent = 'Mozilla/4.0 (compatible; MSIE 5.01; Windows NT 5.0)';
 
@@ -69,7 +69,7 @@ class File
 
           $end = FALSE;
 
-          while ( ! feof($resource)) {// http://www.php.net/manual/en/function.fsockopen.php#87144
+          while (!feof($resource)) {// http://www.php.net/manual/en/function.fsockopen.php#87144
             $tmp = @fgets($resource, 128);
 
             if ($tmp === "\r\n") {
@@ -105,7 +105,7 @@ class File
 
   public static function open($path, $mode, \Closure $lambda)
   {
-    if ( ! ($res = @fopen($path, $mode))) {
+    if (!($res = @fopen($path, $mode))) {
       throw new \Exception("The file '$path' could not be opened");
     }
 
@@ -115,7 +115,7 @@ class File
 
   public static function each($path, \Closure $lambda)
   {
-    if ( ! is_file($path)) {
+    if (!is_file($path)) {
       throw new \Exception("The file '$path' does not exists");
     }
 

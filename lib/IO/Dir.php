@@ -7,7 +7,7 @@ class Dir
 
   public static function entries($from, $filter = '*', $recursive = FALSE)
   {
-    if ( ! is_dir($from)) {
+    if (!is_dir($from)) {
       throw new \Exception("The directory '$from' does not exists");
     }
 
@@ -28,7 +28,7 @@ class Dir
 
   public static function cpfiles($from, $to, $filter = '*', $recursive = FALSE)
   {
-    if ( ! is_dir($from)) {
+    if (!is_dir($from)) {
       throw new \Exception("The directory '$from' does not exists");
     }
 
@@ -40,7 +40,7 @@ class Dir
     foreach ($test as $file) {
       $new = preg_replace("/^$path/", $to, $file);
 
-      if ( ! file_exists($new)) {
+      if (!file_exists($new)) {
         is_dir($file) && mkdir($new, 0777);
         is_file($file) && copy($file, $new);
       }
@@ -49,7 +49,7 @@ class Dir
 
   public static function findfile($path, $filter = '*', $recursive = FALSE, $index = 0)
   {
-    if ( ! is_dir($path)) {
+    if (!is_dir($path)) {
       throw new \Exception("The directory '$path' does not exists");
     }
 
@@ -65,7 +65,7 @@ class Dir
 
   public static function unfile($path, $filter = '*', $recursive = FALSE)
   {
-    if ( ! is_dir($path)) {
+    if (!is_dir($path)) {
       throw new \Exception("The directory '$path' does not exists");
     }
 
@@ -83,7 +83,7 @@ class Dir
 
   public static function size($path, $recursive = FALSE)
   {
-    if ( ! is_dir($path)) {
+    if (!is_dir($path)) {
       throw new \Exception("The directory '$path' does not exists");
     }
 
@@ -102,7 +102,7 @@ class Dir
     $set = is_array($path) ? $path : explode(PATH_SEPARATOR, $path);
 
     foreach ($set as $dir) {
-      if ( ! ($res = @opendir($dir))) {
+      if (!($res = @opendir($dir))) {
         throw new \Exception("The directory '$dir' could not be opened");
       }
 
