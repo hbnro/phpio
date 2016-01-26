@@ -103,14 +103,15 @@ class File
     return TRUE;
   }
 
-  public static function open($path, $mode, \Closure $lambda)
+  public static function open($path, $mode, \Closure $lambda = NULL)
   {
-    if (!($res = @fopen($path, $mode))) {
-      throw new \Exception("The file '$path' could not be opened");
+    $res = new \IO\Resource($path, $mode);
+
+    if ($lambda) {
+      $lambda($res);
     }
 
-    $lambda($res);
-    fclose($res);
+    return $res;
   }
 
   public static function each($path, \Closure $lambda)

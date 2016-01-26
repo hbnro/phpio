@@ -13,15 +13,11 @@ Retrieve the mime-type value from a given file
     IO\Helpers::mimetype($filename)
 
 Return the formatted byte-length value
-    
-    IO\Helpers::fmtsize($bytes)
 
-Compute relative paths
+    IO\Helpers::fmtsize($bytes[, $unit = NULL[, $format = '%01.2f %s']])
 
-    IO\Helpers::expand($path[, $abs_dir = '.'])
+Assemble and resolve paths from its arguments
 
-Assemble paths from its arguments
-    
     IO\Helpers::join($arg1[, $arg2[, $argN]])
 
 Retrieve files in the given directory
@@ -29,13 +25,13 @@ Retrieve files in the given directory
     IO\Dir::entries($path[, $filter = '*'[, $recursive = FALSE]])
 
 Copy files between directories
-    
+
     IO\Dir::cpfiles($from, $to[, $filter = '*'[, $recursive = FALSE]])
 
 Find files through given directory
 
     IO\Dir::findfile($path[, $filter = '*'[, $recursive = FALSE[, $index = 0]]])
-    
+
 Remove files from given directory
 
     IO\Dir::unfile($path[, $filter = '*'[, $recursive = FALSE]])
@@ -63,7 +59,7 @@ Get the whole filepath without extension
 Read a single file or URL
 
     IO\File::read($path)
-    
+
 Writes a single file
 
     IO\File::write($file, $content, $append)
